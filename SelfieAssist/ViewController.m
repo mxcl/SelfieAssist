@@ -464,6 +464,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
     proximityDetector.enabled = features.count > 0;
+    NSLog(@"----- COUNT %lu", features.count);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self drawFaceBoxesForFeatures:features forVideoBox:clap orientation:curDeviceOrientation];
@@ -500,7 +501,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     [self setupAVCapture];
 
     square = [UIImage imageNamed:@"squarePNG"];
@@ -566,7 +566,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                                                   }];
 }
 
--(void)takePicture {
+-(void)takePictureAndLoadActivityView {
     // Find out the current orientation and tell the still image output.
     AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
     UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
@@ -581,6 +581,26 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
                                                   completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                                                       NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                      
+                                                      //Start of activity view
+                                                      NSString *someText = @"Some text";
+                                                      NSArray *objectsToShare = @[someText, jpegData];
+                                                      
+                                                      UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+                                                      
+                                                      NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                                                                     UIActivityTypePrint,
+                                                                                     UIActivityTypeAssignToContact,
+                                                                                     UIActivityTypeSaveToCameraRoll,
+                                                                                     UIActivityTypeAddToReadingList,
+                                                                                     UIActivityTypePostToFlickr,
+                                                                                     UIActivityTypePostToVimeo];
+                                                      
+                                                      activityVC.excludedActivityTypes = excludeActivities;
+                                                      
+                                                      [self presentViewController:activityVC animated:YES completion:nil];
+                                                      //End of activity view
+                                                      
                                                       CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
                                                                                                                   imageDataSampleBuffer,
                                                                                                                   kCMAttachmentMode_ShouldPropagate);
