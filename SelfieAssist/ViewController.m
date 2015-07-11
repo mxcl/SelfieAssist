@@ -12,6 +12,7 @@
     AVCaptureSession *session;
     ProximityDetector *proximityDetector;
     CIDetector *faceDetector;
+    NSDictionary *imageOptions;
 }
 
 - (void)viewDidLoad {
@@ -53,6 +54,8 @@
                                       context:[CIContext contextWithOptions:nil]
                                       options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: @NO}];
 
+    imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:6] forKey:CIDetectorImageOrientation];
+    // increases camera accuracy for faster detection
 
     [session startRunning];
 
@@ -109,7 +112,7 @@ static int counter = 0;
 - (void)detectFaces:(CIImage *)image {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
-        NSArray *features = [faceDetector featuresInImage:image options:nil];
+        NSArray *features = [faceDetector featuresInImage:image options:imageOptions];
 
         if ([features count])
             NSLog(@"FACE! %d", counter++);
