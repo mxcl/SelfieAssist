@@ -7,5 +7,5 @@
 @interface ProximityDetector: NSObject
 - (instancetype)initWithIdealProportion:(CGFloat)proportionalFraction;
 - (void)pipeFaceFrame:(CGRect)faceFrame pictureFrame:(CGRect)pictureFrame;
-@property BOOL beeping;
+@property (nonatomic) BOOL enabled;
 @end

@@ -453,7 +453,9 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     // that represents image data valid for display.
     CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
-    
+
+    proximityDetector.enabled = features.count > 0;
+
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self drawFaceBoxesForFeatures:features forVideoBox:clap orientation:curDeviceOrientation];
     });
