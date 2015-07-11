@@ -16,7 +16,7 @@
     player.delegate = self;
     [player prepareToPlay];
 
-    timer = [NSTimer timerWithTimeInterval:2 target:self selector:@selector(ontimeout) userInfo:nil repeats:YES];
+    timer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(ontimeout) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 
     return self;
@@ -35,7 +35,7 @@
     CGFloat amplitude = 0.1 * MAX(0.6, delta / 0.6);
     NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
-    if (lastBeepTimestamp + amplitude >= now) {
+    if (lastBeepTimestamp + amplitude <= now) {
         [player play];
         lastBeepTimestamp = now;
     }

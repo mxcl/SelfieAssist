@@ -11,6 +11,7 @@
 
 - (instancetype)initWithIdealProportion:(CGFloat)proportionalFraction {
     idealProportion = proportionalFraction;
+    beeper = [Beeper new];
     return self;
 }
 
