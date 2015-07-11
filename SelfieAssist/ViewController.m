@@ -3,6 +3,7 @@
 @import AVFoundation;
 @import CoreImage;
 @import ImageIO;
+#import "ProximityDetector.h"
 #import "ViewController.h"
 
 // used for KVO observation of the @"capturingStillImage" property to perform flash bulb animation
@@ -83,6 +84,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CIDetector *faceDetector;
     CGFloat beginGestureScale;
     CGFloat effectiveScale;
+
+    ProximityDetector *proximityDetector;
 }
 - (void)setupAVCapture;
 - (void)teardownAVCapture;
@@ -322,7 +325,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
     CGSize parentFrameSize = self.view.frame.size;
     NSString *gravity = [previewLayer videoGravity];
-    BOOL isMirrored = [previewLayer isMirrored];
+    BOOL isMirrored = YES;
     CGRect previewBox = [ViewController videoPreviewBoxForGravity:gravity frameSize:parentFrameSize apertureSize:clap.size];
 
     for ( CIFaceFeature *ff in features ) {
@@ -390,6 +393,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                 break; // leave the layer in its last known orientation
         }
         currentFeature++;
+
+        [proximityDetector pipeFaceFrame:featureLayer.frame pictureFrame:self.view.bounds];
     }
 
     [CATransaction commit];
