@@ -15,6 +15,8 @@
     CIDetector *faceDetector;
     NSDictionary *imageOptions;
 
+    UIView *surround;
+
 }
 
 - (void)viewDidLoad {
@@ -57,13 +59,19 @@
                                       options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: @NO}];
 
     imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:6] forKey:CIDetectorImageOrientation];
-    // increases camera accuracy for faster detection
+    // ^-- increases camera accuracy for faster detection
 
     [session startRunning];
 
     proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.6];
 
     [self captureVideo];
+
+    surround = [UIView new];
+    surround.layer.borderColor = [UIColor redColor].CGColor;
+    surround.layer.borderWidth = 1;
+    surround.backgroundColor = [UIColor colorWithHue:0 saturation:1 brightness:1 alpha:0.1];
+    [self.view addSubview:surround];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -91,8 +99,6 @@
     }
     // get the output for doing face detection.
     [[videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
-
-    NSLog(@" this works = %@",videoDataOutput);
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
@@ -112,13 +118,28 @@
 - (void)detectFaces:(CIImage *)image {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
-        NSArray *features = [faceDetector featuresInImage:image options:imageOptions];
+        NSArray *faces = [faceDetector featuresInImage:image options:imageOptions];
 
-
-        if ([features count])
+        if ([faces count])
         {
-            CIFaceFeature *face = features[0];
+            NSLog(@"Face rect: %@", NSStringFromCGRect([faces[0] bounds]));
+
+            CIFaceFeature *face = faces[0];
             [proximityDetector pipeFaceFrame:face.bounds pictureFrame:image.extent];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                CGFloat factor = MIN(self.view.bounds.size.width / image.extent.size.width, self.view.bounds.size.height/ image.extent.size.height);
+
+                CGRect f = face.bounds;
+                f.origin.x *= factor;
+                f.origin.y *= factor;
+                f.size.width *= factor;
+                f.size.height *= factor;
+
+                f.origin.y += (self.view.bounds.size.height - self.view.bounds.size.width) / 2;
+
+                surround.frame = f;
+            });
         }
     });
 
