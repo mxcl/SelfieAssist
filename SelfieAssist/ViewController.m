@@ -1,4 +1,5 @@
 @import AVFoundation;
+@import AudioToolbox;
 #import "ViewController.h"
 
 @interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
@@ -9,6 +10,9 @@
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureVideoDataOutput *videoDataOutput;
     AVCaptureSession *session;
+    CIDetector *faceDetector;
+    UIView *previewView;
+    UIImage *borderImage;
 }
 
 - (void)viewDidLoad {
@@ -46,6 +50,11 @@
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     [self.view.layer addSublayer:previewLayer];
 
+    faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                      context:[CIContext contextWithOptions:nil]
+                                      options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh, CIDetectorTracking: @NO}];
+
+
     [session startRunning];
     [self captureVideo];
 }
@@ -77,6 +86,33 @@
     [[videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
 
     NSLog(@" this works = %@",videoDataOutput);
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(__bridge NSDictionary *)attachments];
+
+    [self detectFaces:[ciImage copy]];
+
+    if (attachments) {
+        CFRelease(attachments);
+    }
+}
+
+static int counter = 0;
+
+- (void)detectFaces:(CIImage *)image {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
+        NSArray *features = [faceDetector featuresInImage:image options:nil];
+
+        if ([features count])
+            NSLog(@"FACE! %d", counter++);
+    });
+
 }
 
 @end
