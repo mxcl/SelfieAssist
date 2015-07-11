@@ -1,4 +1,5 @@
 @import AVFoundation;
+@import CoreImage;
 #import "ProximityDetector.h"
 #import "ViewController.h"
 
@@ -13,6 +14,7 @@
     ProximityDetector *proximityDetector;
     CIDetector *faceDetector;
     NSDictionary *imageOptions;
+
 }
 
 - (void)viewDidLoad {
@@ -107,15 +109,17 @@
     }
 }
 
-static int counter = 0;
-
 - (void)detectFaces:(CIImage *)image {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
         NSArray *features = [faceDetector featuresInImage:image options:imageOptions];
 
+
         if ([features count])
-            NSLog(@"FACE! %d", counter++);
+        {
+            CIFaceFeature *face = features[0];
+            [proximityDetector pipeFaceFrame:face.bounds pictureFrame:image.extent];
+        }
     });
 
 }

@@ -32,7 +32,10 @@
 
 - (void)ontimeout {
     CGFloat delta = fabs(_delta);
-    CGFloat amplitude = 0.1 * MAX(0.6, delta / 0.6);
+    CGFloat amplitude = 0.1 * 6 * MIN(1, MAX(0, delta / 0.6));
+
+    NSLog(@"%f %f", delta, amplitude);
+
     NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
     if (lastBeepTimestamp + amplitude <= now) {
