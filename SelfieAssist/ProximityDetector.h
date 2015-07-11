@@ -8,4 +8,5 @@
 - (instancetype)initWithIdealProportion:(CGFloat)proportionalFraction;
 - (void)pipeFaceFrame:(CGRect)faceFrame pictureFrame:(CGRect)pictureFrame;
 @property (nonatomic) BOOL enabled;
+@property (nonatomic) id<ProximityDetectorDelegate> delegate;
 @end
