@@ -12,7 +12,6 @@
 		635F70941B51685500E6810E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 635F70931B51685500E6810E /* ViewController.m */; };
 		635F70971B51685500E6810E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635F70951B51685500E6810E /* Main.storyboard */; };
 		635F70991B51685500E6810E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 635F70981B51685500E6810E /* Assets.xcassets */; };
-		635F709C1B51685500E6810E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635F709A1B51685500E6810E /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +23,6 @@
 		635F70931B51685500E6810E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		635F70961B51685500E6810E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		635F70981B51685500E6810E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		635F709B1B51685500E6810E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		635F709D1B51685500E6810E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +62,6 @@
 				635F70931B51685500E6810E /* ViewController.m */,
 				635F70951B51685500E6810E /* Main.storyboard */,
 				635F70981B51685500E6810E /* Assets.xcassets */,
-				635F709A1B51685500E6810E /* LaunchScreen.storyboard */,
 				635F709D1B51685500E6810E /* Info.plist */,
 				635F708C1B51685500E6810E /* Supporting Files */,
 			);
@@ -136,7 +133,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				635F709C1B51685500E6810E /* LaunchScreen.storyboard in Resources */,
 				635F70991B51685500E6810E /* Assets.xcassets in Resources */,
 				635F70971B51685500E6810E /* Main.storyboard in Resources */,
 			);
@@ -164,14 +160,6 @@
 				635F70961B51685500E6810E /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		635F709A1B51685500E6810E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				635F709B1B51685500E6810E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -261,6 +249,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SelfieAssist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mxcl.SelfieAssist;
@@ -272,6 +261,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SelfieAssist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mxcl.SelfieAssist;
