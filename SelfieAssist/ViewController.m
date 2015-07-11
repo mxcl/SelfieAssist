@@ -1,27 +1,54 @@
-//
-//  ViewController.m
-//  SelfieAssist
-//
-//  Created by Max Howell on 7/11/15.
-//  Copyright © 2015 Max Howell. All rights reserved.
-//
-
+@import AVFoundation;
 #import "ViewController.h"
 
 @interface ViewController ()
-
 @end
 
-@implementation ViewController
+
+@implementation ViewController {
+    AVCaptureVideoPreviewLayer *previewLayer;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    AVCaptureDevice *device = ^id{
+        for (AVCaptureDevice *d in [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]) {
+            if ([d position] == AVCaptureDevicePositionFront) {
+                return d;
+            }
+        }
+        return nil;
+    }();
+
+    AVCaptureSession *session = [AVCaptureSession new];
+    id preset = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone
+        ? AVCaptureSessionPreset640x480
+        : AVCaptureSessionPresetPhoto;
+    session.sessionPreset = preset;
+
+    id error;
+    AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+
+    if (error)
+        @throw @"DAYYYMN SON";
+
+    // add the input to the session
+    if ([session canAddInput:deviceInput]) {
+        [session addInput:deviceInput];
+    } else
+        @throw @"DAYYYMN SON";
+
+    previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    previewLayer.backgroundColor = [UIColor blackColor].CGColor;
+    previewLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    [self.view.layer addSublayer:previewLayer];
+
+    [session startRunning];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidLayoutSubviews {
+    previewLayer.frame = self.view.bounds;
 }
 
 @end
