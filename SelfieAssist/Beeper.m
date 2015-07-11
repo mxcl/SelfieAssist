@@ -16,14 +16,19 @@
     player.delegate = self;
     [player prepareToPlay];
 
-    timer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(ontimeout) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
     return self;
 }
 
 - (void)dealloc {
     [timer invalidate];
+}
+
+- (void)setDelta:(CGFloat)delta {
+    _delta = delta;
+    if (!timer) {
+        timer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(ontimeout) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)pp successfully:(BOOL)flag {
@@ -32,13 +37,13 @@
 
 - (void)ontimeout {
     CGFloat delta = fabs(_delta);
-    CGFloat amplitude = 0.1 * 6 * MIN(1, MAX(0, delta / 0.6));
+    CGFloat duration = 0.1 + delta;
 
-    NSLog(@"%f %f", delta, amplitude);
+//    NSLog(@"%f %f", delta, duration);
 
     NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
-    if (lastBeepTimestamp + amplitude <= now) {
+    if (lastBeepTimestamp + duration <= now) {
         [player play];
         lastBeepTimestamp = now;
     }

@@ -20,6 +20,8 @@
     CGFloat pictureWidth = CGRectGetWidth(pictureFrame);
     CGFloat proportion = faceWidth / pictureWidth;
 
+    NSLog(@"face width: %f", faceWidth);
+
     beeper.delta = proportion - idealProportion;
 }
 
