@@ -13,6 +13,8 @@
 		635F70971B51685500E6810E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635F70951B51685500E6810E /* Main.storyboard */; };
 		635F70991B51685500E6810E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 635F70981B51685500E6810E /* Assets.xcassets */; };
 		63BAF6371B5172DB002A9DC5 /* beep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF6361B5172DB002A9DC5 /* beep.caf */; };
+		63BAF6391B517370002A9DC5 /* ProximityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BAF6381B517370002A9DC5 /* ProximityDetector.m */; };
+		63BAF63D1B518A5C002A9DC5 /* Beeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BAF63C1B518A5C002A9DC5 /* Beeper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		635F70981B51685500E6810E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		635F709D1B51685500E6810E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BAF6361B5172DB002A9DC5 /* beep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = beep.caf; sourceTree = "<group>"; };
+		63BAF6381B517370002A9DC5 /* ProximityDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProximityDetector.m; sourceTree = "<group>"; };
+		63BAF63A1B517942002A9DC5 /* ProximityDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProximityDetector.h; sourceTree = "<group>"; };
+		63BAF63B1B518A2D002A9DC5 /* Beeper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beeper.h; sourceTree = "<group>"; };
+		63BAF63C1B518A5C002A9DC5 /* Beeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Beeper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,10 @@
 				635F70901B51685500E6810E /* AppDelegate.m */,
 				635F70921B51685500E6810E /* ViewController.h */,
 				635F70931B51685500E6810E /* ViewController.m */,
+				63BAF63A1B517942002A9DC5 /* ProximityDetector.h */,
+				63BAF6381B517370002A9DC5 /* ProximityDetector.m */,
+				63BAF63B1B518A2D002A9DC5 /* Beeper.h */,
+				63BAF63C1B518A5C002A9DC5 /* Beeper.m */,
 				635F70951B51685500E6810E /* Main.storyboard */,
 				635F70981B51685500E6810E /* Assets.xcassets */,
 				635F709D1B51685500E6810E /* Info.plist */,
@@ -150,8 +160,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				635F70941B51685500E6810E /* ViewController.m in Sources */,
+				63BAF6391B517370002A9DC5 /* ProximityDetector.m in Sources */,
 				635F70911B51685500E6810E /* AppDelegate.m in Sources */,
 				635F708E1B51685500E6810E /* main.m in Sources */,
+				63BAF63D1B518A5C002A9DC5 /* Beeper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
