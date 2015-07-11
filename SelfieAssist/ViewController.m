@@ -3,6 +3,7 @@
 @import AVFoundation;
 @import CoreImage;
 @import ImageIO;
+#import "ProximityDetector.h"
 #import "ViewController.h"
 #import "ProximityDetector.h"
 
@@ -325,7 +326,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
     CGSize parentFrameSize = self.view.frame.size;
     NSString *gravity = [previewLayer videoGravity];
-    BOOL isMirrored = [previewLayer isMirrored];
+    BOOL isMirrored = YES;
     CGRect previewBox = [ViewController videoPreviewBoxForGravity:gravity frameSize:parentFrameSize apertureSize:clap.size];
 
     for ( CIFaceFeature *ff in features ) {
@@ -397,7 +398,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         if (!(ff == nil))
         {
         [proximityDetector pipeFaceFrame:faceRect pictureFrame:self.view.frame];
-            [self takePhoto];
+           // [self takePhoto];
         }
         else
         {
@@ -503,7 +504,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
 
-    proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.6];
+    proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.4];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -559,7 +560,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
                                                   completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
 
-                                                      
 
                                                   }];
 }

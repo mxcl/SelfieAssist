@@ -1,50 +1,46 @@
 @import AVFoundation;
+@import AudioToolbox;
 #import "Beeper.h"
 
-@interface Beeper () <AVAudioPlayerDelegate>
-@end
 
 @implementation Beeper {
-    AVAudioPlayer *player;
     NSTimeInterval lastBeepTimestamp;
-    NSTimer *timer;
+    SystemSoundID soundID;
+    BOOL started;
 }
 
 - (instancetype)init {
     id url = [[NSBundle mainBundle] URLForResource:@"beep" withExtension:@"caf"];
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
-    player.delegate = self;
-    [player prepareToPlay];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) url, &soundID);
 
     return self;
 }
 
-- (void)dealloc {
-    [timer invalidate];
-}
-
 - (void)setDelta:(CGFloat)delta {
     _delta = delta;
-    if (!timer) {
-        timer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(ontimeout) userInfo:nil repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    if (!started) {
+        [self loop];
     }
 }
 
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)pp successfully:(BOOL)flag {
-    [player prepareToPlay];
-}
+- (void)loop {
+    id q = dispatch_get_main_queue();
 
-- (void)ontimeout {
-    CGFloat delta = fabs(_delta);
-    CGFloat duration = 0.1 + delta;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
+        CGFloat delta = fabs(_delta);
+        CGFloat duration = delta < 0.08
+        ? 0.2
+        : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
+
 
     NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
-    if (lastBeepTimestamp + duration <= now) {
-        [player play];
-        lastBeepTimestamp = now;
-    }
+        if (lastBeepTimestamp + duration <= now) {
+            AudioServicesPlaySystemSound(soundID);
+            lastBeepTimestamp = now;
+        }
+        [self loop];
+    });
 }
 
 @end
