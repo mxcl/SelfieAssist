@@ -15,6 +15,8 @@
 		63BAF6371B5172DB002A9DC5 /* beep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF6361B5172DB002A9DC5 /* beep.caf */; };
 		63BAF6391B517370002A9DC5 /* ProximityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BAF6381B517370002A9DC5 /* ProximityDetector.m */; };
 		63BAF63D1B518A5C002A9DC5 /* Beeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BAF63C1B518A5C002A9DC5 /* Beeper.m */; };
+		63BAF63F1B51BB0E002A9DC5 /* squarePNG.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF63E1B51BB0E002A9DC5 /* squarePNG.png */; };
+		63BAF6411B51BB4A002A9DC5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF6401B51BB4A002A9DC5 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		63BAF63A1B517942002A9DC5 /* ProximityDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProximityDetector.h; sourceTree = "<group>"; };
 		63BAF63B1B518A2D002A9DC5 /* Beeper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beeper.h; sourceTree = "<group>"; };
 		63BAF63C1B518A5C002A9DC5 /* Beeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Beeper.m; sourceTree = "<group>"; };
+		63BAF63E1B51BB0E002A9DC5 /* squarePNG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squarePNG.png; sourceTree = "<group>"; };
+		63BAF6401B51BB4A002A9DC5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,8 @@
 				635F70981B51685500E6810E /* Assets.xcassets */,
 				635F709D1B51685500E6810E /* Info.plist */,
 				63BAF6361B5172DB002A9DC5 /* beep.caf */,
+				63BAF63E1B51BB0E002A9DC5 /* squarePNG.png */,
+				63BAF6401B51BB4A002A9DC5 /* Default-568h@2x.png */,
 				635F708C1B51685500E6810E /* Supporting Files */,
 			);
 			path = SelfieAssist;
@@ -148,6 +154,8 @@
 			files = (
 				63BAF6371B5172DB002A9DC5 /* beep.caf in Resources */,
 				635F70991B51685500E6810E /* Assets.xcassets in Resources */,
+				63BAF63F1B51BB0E002A9DC5 /* squarePNG.png in Resources */,
+				63BAF6411B51BB4A002A9DC5 /* Default-568h@2x.png in Resources */,
 				635F70971B51685500E6810E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
