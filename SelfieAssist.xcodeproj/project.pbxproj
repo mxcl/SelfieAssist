@@ -12,6 +12,7 @@
 		635F70941B51685500E6810E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 635F70931B51685500E6810E /* ViewController.m */; };
 		635F70971B51685500E6810E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 635F70951B51685500E6810E /* Main.storyboard */; };
 		635F70991B51685500E6810E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 635F70981B51685500E6810E /* Assets.xcassets */; };
+		63BAF6371B5172DB002A9DC5 /* beep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF6361B5172DB002A9DC5 /* beep.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		635F70961B51685500E6810E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		635F70981B51685500E6810E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		635F709D1B51685500E6810E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63BAF6361B5172DB002A9DC5 /* beep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = beep.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				635F70951B51685500E6810E /* Main.storyboard */,
 				635F70981B51685500E6810E /* Assets.xcassets */,
 				635F709D1B51685500E6810E /* Info.plist */,
+				63BAF6361B5172DB002A9DC5 /* beep.caf */,
 				635F708C1B51685500E6810E /* Supporting Files */,
 			);
 			path = SelfieAssist;
@@ -133,6 +136,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BAF6371B5172DB002A9DC5 /* beep.caf in Resources */,
 				635F70991B51685500E6810E /* Assets.xcassets in Resources */,
 				635F70971B51685500E6810E /* Main.storyboard in Resources */,
 			);
