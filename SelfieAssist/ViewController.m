@@ -4,6 +4,7 @@
 @import CoreImage;
 @import ImageIO;
 #import "ViewController.h"
+#import "ProximityDetector.h"
 
 // used for KVO observation of the @"capturingStillImage" property to perform flash bulb animation
 static const NSString *AVCaptureStillImageIsCapturingStillImageContext = @"AVCaptureStillImageIsCapturingStillImageContext";
@@ -81,6 +82,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     UIView *flashView;
     UIImage *square;
     CIDetector *faceDetector;
+    ProximityDetector *proximityDetector;
+
     CGFloat beginGestureScale;
     CGFloat effectiveScale;
 }
@@ -390,6 +393,16 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                 break; // leave the layer in its last known orientation
         }
         currentFeature++;
+
+        if (!(ff == nil))
+        {
+        [proximityDetector pipeFaceFrame:faceRect pictureFrame:self.view.frame];
+            [self takePhoto];
+        }
+        else
+        {
+            
+        }
     }
 
     [CATransaction commit];
@@ -527,6 +540,28 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         [previewLayer setAffineTransform:CGAffineTransformMakeScale(effectiveScale, effectiveScale)];
         [CATransaction commit];
     }
+}
+
+-(void)takePhoto
+{
+
+    AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
+    AVCaptureVideoOrientation avcaptureOrientation = [self avOrientationForDeviceOrientation:curDeviceOrientation];
+    [stillImageConnection setVideoOrientation:avcaptureOrientation];
+    [stillImageConnection setVideoScaleAndCropFactor:effectiveScale];
+
+
+        [stillImageOutput setOutputSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCMPixelFormat_32BGRA]
+                                                                        forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
+        [stillImageOutput setOutputSettings:[NSDictionary dictionaryWithObject:AVVideoCodecJPEG
+                                                                        forKey:AVVideoCodecKey]];
+    [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
+                                                  completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+
+                                                      
+
+                                                  }];
 }
 
 @end

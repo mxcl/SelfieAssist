@@ -39,8 +39,6 @@
     CGFloat delta = fabs(_delta);
     CGFloat duration = 0.1 + delta;
 
-//    NSLog(@"%f %f", delta, duration);
-
     NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
     if (lastBeepTimestamp + duration <= now) {
