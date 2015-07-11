@@ -1,4 +1,5 @@
 @import AVFoundation;
+#import "ProximityDetector.h"
 #import "ViewController.h"
 
 @interface ViewController ()<AVCaptureVideoDataOutputSampleBufferDelegate>
@@ -9,6 +10,7 @@
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureVideoDataOutput *videoDataOutput;
     AVCaptureSession *session;
+    ProximityDetector *proximityDetector;
 }
 
 - (void)viewDidLoad {
@@ -47,6 +49,9 @@
     [self.view.layer addSublayer:previewLayer];
 
     [session startRunning];
+
+    proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.6];
+
     [self captureVideo];
 }
 
