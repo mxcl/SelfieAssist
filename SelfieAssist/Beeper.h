@@ -3,4 +3,5 @@
 
 @interface Beeper: NSObject
 @property (nonatomic) CGFloat delta;
+@property (nonatomic) BOOL enabled;
 @end

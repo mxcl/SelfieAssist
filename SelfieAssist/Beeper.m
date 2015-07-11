@@ -27,17 +27,18 @@
     id q = dispatch_get_main_queue();
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
-        CGFloat delta = fabs(_delta);
-        CGFloat duration = delta < 0.08
-        ? 0.2
-        : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
+        if (_enabled) {
+            CGFloat delta = fabs(_delta);
+            CGFloat duration = delta < 0.08
+            ? 0.2
+            : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
 
+            NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
-    NSTimeInterval now = [NSDate new].timeIntervalSince1970;
-
-        if (lastBeepTimestamp + duration <= now) {
-            AudioServicesPlaySystemSound(soundID);
-            lastBeepTimestamp = now;
+            if (lastBeepTimestamp + duration <= now) {
+                AudioServicesPlaySystemSound(soundID);
+                lastBeepTimestamp = now;
+            }
         }
         [self loop];
     });
