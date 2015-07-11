@@ -566,4 +566,31 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                                                   }];
 }
 
+-(void)takePicture {
+    // Find out the current orientation and tell the still image output.
+    AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
+    AVCaptureVideoOrientation avcaptureOrientation = [self avOrientationForDeviceOrientation:curDeviceOrientation];
+    [stillImageConnection setVideoOrientation:avcaptureOrientation];
+    [stillImageConnection setVideoScaleAndCropFactor:effectiveScale];
+    
+    // set the appropriate pixel format / image type output setting depending on if we'll need an uncompressed image for
+    // the possiblity of drawing the red square over top or if we're just writing a jpeg to the camera roll which is the trival case
+    
+    
+    [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
+                                                  completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+                                                      NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                      CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
+                                                                                                                  imageDataSampleBuffer,
+                                                                                                                  kCMAttachmentMode_ShouldPropagate);
+                                                      ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+                                                      [library writeImageDataToSavedPhotosAlbum:jpegData metadata:(__bridge id)attachments completionBlock:^(NSURL *assetURL, NSError *error) {
+                                                          if (error) {
+                                                              [self displayErrorOnMainQueue:error withMessage:@"Save to camera roll failed"];
+                                                          }
+                                                      }];
+                                                  }];
+}
+
 @end
