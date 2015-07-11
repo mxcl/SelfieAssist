@@ -464,7 +464,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
     proximityDetector.enabled = features.count > 0;
-    NSLog(@"----- COUNT %lu", features.count);
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self drawFaceBoxesForFeatures:features forVideoBox:clap orientation:curDeviceOrientation];
@@ -501,6 +500,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self performSelector:@selector(takePictureAndLoadActivityView) withObject:nil afterDelay:3.0];
     [self setupAVCapture];
 
     square = [UIImage imageNamed:@"squarePNG"];
@@ -574,43 +574,38 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     [stillImageConnection setVideoOrientation:avcaptureOrientation];
     [stillImageConnection setVideoScaleAndCropFactor:effectiveScale];
     
-    // set the appropriate pixel format / image type output setting depending on if we'll need an uncompressed image for
-    // the possiblity of drawing the red square over top or if we're just writing a jpeg to the camera roll which is the trival case
-    
-    
     [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
                                                   completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                                                      NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                                                      
-                                                      //Start of activity view
-                                                      NSString *someText = @"Some text";
-                                                      NSArray *objectsToShare = @[someText, jpegData];
-                                                      
-                                                      UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-                                                      
-                                                      NSArray *excludeActivities = @[UIActivityTypeAirDrop,
-                                                                                     UIActivityTypePrint,
-                                                                                     UIActivityTypeAssignToContact,
-                                                                                     UIActivityTypeSaveToCameraRoll,
-                                                                                     UIActivityTypeAddToReadingList,
-                                                                                     UIActivityTypePostToFlickr,
-                                                                                     UIActivityTypePostToVimeo];
-                                                      
-                                                      activityVC.excludedActivityTypes = excludeActivities;
-                                                      
-                                                      [self presentViewController:activityVC animated:YES completion:nil];
-                                                      //End of activity view
-                                                      
-                                                      CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
-                                                                                                                  imageDataSampleBuffer,
-                                                                                                                  kCMAttachmentMode_ShouldPropagate);
-                                                      ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-                                                      [library writeImageDataToSavedPhotosAlbum:jpegData metadata:(__bridge id)attachments completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                          if (error) {
-                                                              [self displayErrorOnMainQueue:error withMessage:@"Save to camera roll failed"];
-                                                          }
-                                                      }];
-                                                  }];
+        NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+
+        //Start of activity view
+        NSString *someText = @"Some text";
+        NSArray *objectsToShare = @[someText, jpegData];
+
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+
+        NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                     UIActivityTypePrint,
+                                     UIActivityTypeAssignToContact,
+                                     UIActivityTypeSaveToCameraRoll,
+                                     UIActivityTypeAddToReadingList,
+                                     UIActivityTypePostToFlickr,
+                                     UIActivityTypePostToVimeo];
+        activityVC.excludedActivityTypes = excludeActivities;
+
+        [self presentViewController:activityVC animated:YES completion:nil];
+        //End of activity view
+
+        CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
+                                                                  imageDataSampleBuffer,
+                                                                  kCMAttachmentMode_ShouldPropagate);
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        [library writeImageDataToSavedPhotosAlbum:jpegData metadata:(__bridge id)attachments completionBlock:^(NSURL *assetURL, NSError *error) {
+          if (error) {
+              [self displayErrorOnMainQueue:error withMessage:@"Save to camera roll failed"];
+          }
+        }];
+    }];
 }
 
 @end
