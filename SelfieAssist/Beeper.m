@@ -33,8 +33,6 @@
             ? 0.2
             : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
 
-            NSLog(@"%f %f", _delta, duration);
-
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
             if (lastBeepTimestamp + duration <= now) {
