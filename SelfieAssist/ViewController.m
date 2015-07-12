@@ -505,7 +505,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
 
-    proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.4];
+    proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.42];
     proximityDetector.delegate = self;
 }
 
