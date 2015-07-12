@@ -17,6 +17,10 @@
         [welf.delegate proximityDetectorIdealConditionsMetForOneSecond:welf];
     };
 
+    beeper.inSweetSpot = ^(BOOL inSweetSpot){
+        [welf.delegate proximityDetectorInSweetSpot:inSweetSpot];
+    };
+
     return self;
 }
 

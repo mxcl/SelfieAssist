@@ -82,6 +82,7 @@
         if (_enabled) {
             CGFloat movingAverageDelta = fabs([movingAverage add:_delta]);
 
+            BOOL const wasIdeal = idealStartedTimestamp != 0;
             BOOL const ideal = movingAverageDelta < 0.06;
             CGFloat duration = ideal
                 ? 0.10
@@ -105,6 +106,10 @@
             if (lastBeepTimestamp + duration <= now) {
                 AudioServicesPlaySystemSound(soundID);
                 lastBeepTimestamp = now;
+            }
+
+            if (wasIdeal != ideal) {
+                self.inSweetSpot(ideal);
             }
         }
         [self loop];

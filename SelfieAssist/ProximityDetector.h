@@ -1,6 +1,7 @@
 @import UIKit;
 
 @protocol ProximityDetectorDelegate
+- (void)proximityDetectorInSweetSpot:(BOOL)inSweetSpot;
 - (void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector;
 @end
 
