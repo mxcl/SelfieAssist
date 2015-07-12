@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kaA-ak-2yn">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -22,6 +21,61 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1014" y="287"/>
+        </scene>
+        <!--Instructions View Controller-->
+        <scene sceneID="UIl-KF-WuY">
+            <objects>
+                <viewController id="kaA-ak-2yn" customClass="InstructionsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="axH-zh-LHy"/>
+                        <viewControllerLayoutGuide type="bottom" id="95g-YJ-4j6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bye-BT-SbM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JwM-r2-Kbu">
+                                <rect key="frame" x="10" y="0.0" width="580" height="300"/>
+                                <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <string key="label">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Click the camera at the bottom of the screen to load the camera.</string>
+                                </accessibility>
+                                <string key="text">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Click the camera at the bottom of the screen to load the camera.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QmW-N5-uPW">
+                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                                <color key="backgroundColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Go to camera"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Camera">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="gw4-hm-842"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="QmW-N5-uPW" firstAttribute="leading" secondItem="Bye-BT-SbM" secondAttribute="leading" id="6zJ-xO-bJg"/>
+                            <constraint firstItem="JwM-r2-Kbu" firstAttribute="height" secondItem="QmW-N5-uPW" secondAttribute="height" id="7cZ-RV-T5t"/>
+                            <constraint firstAttribute="trailing" secondItem="JwM-r2-Kbu" secondAttribute="trailing" constant="10" id="DAn-oL-099"/>
+                            <constraint firstAttribute="trailing" secondItem="QmW-N5-uPW" secondAttribute="trailing" id="GOk-JF-hwR"/>
+                            <constraint firstItem="QmW-N5-uPW" firstAttribute="top" secondItem="JwM-r2-Kbu" secondAttribute="bottom" id="WOI-S9-Qbi"/>
+                            <constraint firstItem="JwM-r2-Kbu" firstAttribute="leading" secondItem="Bye-BT-SbM" secondAttribute="leading" constant="10" id="X6J-en-quC"/>
+                            <constraint firstItem="JwM-r2-Kbu" firstAttribute="top" secondItem="Bye-BT-SbM" secondAttribute="top" id="YCI-W6-YgV"/>
+                            <constraint firstItem="95g-YJ-4j6" firstAttribute="top" secondItem="QmW-N5-uPW" secondAttribute="bottom" id="sxh-eI-4oX"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WOV-pi-J9D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="312" y="287"/>
         </scene>
     </scenes>
 </document>
