@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kaA-ak-2yn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="kaA-ak-2yn">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -39,9 +39,9 @@
                                 <rect key="frame" x="20" y="28" width="560" height="262"/>
                                 <animations/>
                                 <accessibility key="accessibilityConfiguration">
-                                    <string key="label">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Click the camera at the bottom of the screen to load the camera.</string>
+                                    <string key="label">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Push the camera button at the bottom of the screen to load the camera.</string>
                                 </accessibility>
-                                <string key="text">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Click the camera at the bottom of the screen to load the camera.</string>
+                                <string key="text">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Push the camera button at the bottom of the screen to load the camera.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
