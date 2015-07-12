@@ -39,7 +39,7 @@
                                 <rect key="frame" x="20" y="28" width="560" height="262"/>
                                 <animations/>
                                 <accessibility key="accessibilityConfiguration">
-                                    <string key="label">Welcome to Selfie Assist. The phone will beep faster when you are in range for the proper selfie. The phone will then take the photo and you can share with your friends. Push the camera button at the bottom of the screen to load the camera.</string>
+                                    <string key="label">Selfie Assist helps you create the perfect selfie. Face the phone towards you and move it closer or farther away. The phone will beep faster the better positioned your phone, when it beeps really fast hold still for a second and we’ll take your picture! Press the camera button below to start.</string>
                                 </accessibility>
                                 <string key="text">Selfie Assist helps you create the perfect selfie. Face the phone towards you and move it closer or farther away. The phone will beep faster the better positioned your phone, when it beeps really fast hold still for a second and we’ll take your picture! Press the camera button below to start.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
