@@ -85,6 +85,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CIDetector *faceDetector;
     ProximityDetector *proximityDetector;
     AVCaptureSession *session;
+    BOOL isTakingPhoto;
 
     CGFloat beginGestureScale;
     CGFloat effectiveScale;
@@ -464,7 +465,9 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
+    if (isTakingPhoto == NO) {
     proximityDetector.enabled = features.count > 0;
+    }
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self drawFaceBoxesForFeatures:features forVideoBox:clap orientation:curDeviceOrientation];
@@ -496,6 +499,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 {
     [super viewDidLoad];
     [self setupAVCapture];
+
+    isTakingPhoto = NO;
 
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
@@ -545,6 +550,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 }
 
 -(void)takePictureAndLoadActivityView {
+
+    isTakingPhoto = YES;
     // Find out the current orientation and tell the still image output.
     AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
     UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
@@ -556,14 +563,14 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                                                   completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
         NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
 
+                    if (!(error)) {
+                    [session stopRunning];
+                                                      
+                    proximityDetector.enabled = NO;
         //Start of activity view
         NSArray *objectsToShare = @[jpegData];
 
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-        [session stopRunning];
-
-        proximityDetector.enabled = NO;
-
         NSArray *excludeActivities = @[UIActivityTypeAirDrop,
                                      UIActivityTypePrint,
                                      UIActivityTypeAssignToContact,
@@ -578,8 +585,10 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         }];
 
         [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-            [session startRunning];
-            proximityDetector.enabled = YES;
+            if (!(activityError)) {
+                isTakingPhoto = NO;
+                [self performSelector:@selector(restart) withObject:self afterDelay:1];
+            }
         }];
 
         CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
@@ -592,7 +601,15 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
           }
 
         }];
+    }
+                                                      
     }];
+}
+
+-(void)restart
+{
+    [session startRunning];
+    proximityDetector.enabled = YES;
 }
 
 @end
