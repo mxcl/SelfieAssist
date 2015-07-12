@@ -3,14 +3,47 @@
 #import "Beeper.h"
 
 
+@interface MovingAverage: NSObject
+@end
+@implementation MovingAverage {
+    NSMutableArray *values;
+}
+
+- (instancetype)init {
+    values = [NSMutableArray new];
+    return self;
+}
+
+- (double)add:(double)value {
+    [values addObject:@(value)];
+    if (values.count > 50)
+        [values removeObjectAtIndex:0];
+
+    double average = 0;
+    for (id value in values)
+        average += [value doubleValue];
+
+    return average / values.count;
+}
+
+- (void)clear {
+    [values removeAllObjects];
+}
+
+@end
+
+
+
 @implementation Beeper {
     NSTimeInterval lastBeepTimestamp;
     NSTimeInterval idealStartedTimestamp;
+    MovingAverage *movingAverage;
     SystemSoundID soundID;
     BOOL started;
 }
 
 - (instancetype)init {
+    movingAverage = [MovingAverage new];
     id url = [[NSBundle mainBundle] URLForResource:@"beep" withExtension:@"caf"];
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) url, &soundID);
     return self;
@@ -37,11 +70,12 @@
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
         if (_enabled) {
-            CGFloat delta = fabs(_delta);
-            BOOL const ideal = delta < 0.04;
+            CGFloat movingAverageDelta = fabs([movingAverage add:_delta]);
+
+            BOOL const ideal = movingAverageDelta < 0.06;
             CGFloat duration = ideal
-                ? 0.18
-                : 0.30 + log(1 + MIN(delta * 1.0/0.3, 1));
+                ? 0.13
+                : 0.30 + log(1 + MIN((_delta - 0.06) * 1.0/0.2, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
