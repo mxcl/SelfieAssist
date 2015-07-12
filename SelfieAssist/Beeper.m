@@ -30,6 +30,15 @@
     [values removeAllObjects];
 }
 
+- (double)last:(int)n {
+    n = MIN(n, (int)values.count);
+
+    double average = 0;
+    for (id value in [values subarrayWithRange:NSMakeRange(values.count - n, n)])
+        average += [value doubleValue];
+    return average / n;
+}
+
 @end
 
 
@@ -67,7 +76,7 @@
 }
 
 - (void)loop {
-    id q = dispatch_get_main_queue();
+    id q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
         if (_enabled) {
@@ -75,16 +84,16 @@
 
             BOOL const ideal = movingAverageDelta < 0.06;
             CGFloat duration = ideal
-                ? 0.15
-                : 0.30 + log(1 + MIN((_delta - 0.06) * 1.0/0.2, 1));
+                ? 0.08
+                : 0.30 + log(1 + MIN((fabs([movingAverage last:10]) - 0.06) * 1.0/0.2, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
             if (ideal) {
                 if (idealStartedTimestamp == 0) {
                     idealStartedTimestamp = now;
-                } else if (now > idealStartedTimestamp + 1) {
-                    _yoDudeItHasBeenASecond();
+                } else if (now > idealStartedTimestamp + 1 && /* make sure current frame is ideal still */ _delta < 0.06) {
+                    dispatch_async(dispatch_get_main_queue(), _yoDudeItHasBeenASecond);
 
                     // let’s be defensive and cancel ourselves
                     self.enabled = NO;
