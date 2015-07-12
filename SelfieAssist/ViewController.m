@@ -75,7 +75,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
 #pragma mark-
 
-@interface ViewController () <UIGestureRecognizerDelegate, AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface ViewController () <UIGestureRecognizerDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, ProximityDetectorDelegate> {
     AVCaptureVideoPreviewLayer *previewLayer;
     AVCaptureVideoDataOutput *videoDataOutput;
     dispatch_queue_t videoDataOutputQueue;
@@ -490,24 +490,18 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self performSelector:@selector(takePictureAndLoadActivityView) withObject:nil afterDelay:3.0];
     [self setupAVCapture];
 
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
 
     proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.4];
+    proximityDetector.delegate = self;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -544,6 +538,11 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         [previewLayer setAffineTransform:CGAffineTransformMakeScale(effectiveScale, effectiveScale)];
         [CATransaction commit];
     }
+}
+
+-(void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
+    NSLog(@"------- TEST");
+    [self takePictureAndLoadActivityView];
 }
 
 -(void)takePictureAndLoadActivityView {
