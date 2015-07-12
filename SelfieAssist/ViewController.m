@@ -417,6 +417,10 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    if (isTakingPhoto == YES)
+        return;
+
+
     // got an image
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
@@ -469,9 +473,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
     CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft == false*/);
 
-    if (isTakingPhoto == NO) {
     proximityDetector.enabled = features.count > 0;
-    }
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self drawFaceBoxesForFeatures:features forVideoBox:clap orientation:curDeviceOrientation];
@@ -503,8 +505,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 {
     [super viewDidLoad];
     [self setupAVCapture];
-
-    isTakingPhoto = NO;
 
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
@@ -552,27 +552,30 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 - (void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
     [self takePictureAndLoadActivityView];
 }
-- (void)proximityDetectorInSweetSpot:(BOOL)inSweetSpot {
 
+- (CALayer *)faceFrame {
     NSArray *sublayers = [NSArray arrayWithArray:[previewLayer sublayers]];
     NSInteger sublayersCount = [sublayers count], currentSublayer = 0;
 
-    CALayer *featureLayer = nil;
-
-    while ( !featureLayer && (currentSublayer < sublayersCount) ) {
+    while (currentSublayer < sublayersCount) {
         CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
         if ( [[currentLayer name] isEqualToString:@"FaceLayer"] ) {
-            featureLayer = currentLayer;
-            [currentLayer setHidden:NO];
+            return currentLayer;
         }
     }
+    return nil;
+}
 
-    featureLayer.borderColor = inSweetSpot
-        ? [UIColor greenColor].CGColor
-        :[UIColor redColor].CGColor;
+- (void)proximityDetectorInSweetSpot:(BOOL)inSweetSpot {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.faceFrame.borderColor = inSweetSpot
+            ? [UIColor greenColor].CGColor
+            : [UIColor redColor].CGColor;
+    });
 }
 
 -(void)takePictureAndLoadActivityView {
+    self.faceFrame.hidden = YES;
 
     isTakingPhoto = YES;
     // Find out the current orientation and tell the still image output.
@@ -608,10 +611,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         }];
 
         [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-            if (!(activityError)) {
-                isTakingPhoto = NO;
-                [self performSelector:@selector(restart) withObject:self afterDelay:1];
-            }
+            isTakingPhoto = NO;
+            [self performSelector:@selector(restart) withObject:self afterDelay:1];
         }];
 
         CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,

@@ -72,6 +72,7 @@
         idealStartedTimestamp = 0;
         lastBeepTimestamp = 0;
         [movingAverage clear];
+        self.inSweetSpot(NO);
     }
 }
 
