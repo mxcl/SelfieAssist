@@ -62,6 +62,7 @@
     if (!enabled) {
         idealStartedTimestamp = 0;
         lastBeepTimestamp = 0;
+        [movingAverage clear];
     }
 }
 
@@ -86,8 +87,7 @@
                     _yoDudeItHasBeenASecond();
 
                     // let’s be defensive and cancel ourselves
-                    _enabled = NO;
-                    idealStartedTimestamp = 0;
+                    self.enabled = NO;
                 }
             } else {
                 idealStartedTimestamp = 0;
