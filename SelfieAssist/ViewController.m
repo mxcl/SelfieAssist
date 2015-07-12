@@ -489,12 +489,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -504,8 +498,9 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
     square = [UIImage imageNamed:@"squarePNG"];
     faceDetector = [CIDetector detectorOfType:CIDetectorTypeFace context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
-    proximityDetector.delegate = self;
+
     proximityDetector = [[ProximityDetector alloc] initWithIdealProportion:0.4];
+    proximityDetector.delegate = self;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
