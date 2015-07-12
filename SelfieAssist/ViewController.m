@@ -546,7 +546,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 }
 
 -(void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
-   // NSLog(@"------- TEST");
     [self takePictureAndLoadActivityView];
 }
 
@@ -569,8 +568,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                                                       
                     proximityDetector.enabled = NO;
         //Start of activity view
-        NSString *someText = @"Some text";
-        NSArray *objectsToShare = @[someText, jpegData];
+        NSArray *objectsToShare = @[jpegData];
 
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
         NSArray *excludeActivities = @[UIActivityTypeAirDrop,

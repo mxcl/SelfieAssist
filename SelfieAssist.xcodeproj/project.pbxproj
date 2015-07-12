@@ -17,6 +17,7 @@
 		63BAF63D1B518A5C002A9DC5 /* Beeper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BAF63C1B518A5C002A9DC5 /* Beeper.m */; };
 		63BAF63F1B51BB0E002A9DC5 /* squarePNG.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF63E1B51BB0E002A9DC5 /* squarePNG.png */; };
 		63BAF6411B51BB4A002A9DC5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63BAF6401B51BB4A002A9DC5 /* Default-568h@2x.png */; };
+		D807D7081B52BFC5001D2BE4 /* InstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D807D7071B52BFC5001D2BE4 /* InstructionsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		63BAF63C1B518A5C002A9DC5 /* Beeper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Beeper.m; sourceTree = "<group>"; };
 		63BAF63E1B51BB0E002A9DC5 /* squarePNG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squarePNG.png; sourceTree = "<group>"; };
 		63BAF6401B51BB4A002A9DC5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D807D7061B52BFC5001D2BE4 /* InstructionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionsViewController.h; sourceTree = "<group>"; };
+		D807D7071B52BFC5001D2BE4 /* InstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,8 @@
 			children = (
 				635F708F1B51685500E6810E /* AppDelegate.h */,
 				635F70901B51685500E6810E /* AppDelegate.m */,
+				D807D7061B52BFC5001D2BE4 /* InstructionsViewController.h */,
+				D807D7071B52BFC5001D2BE4 /* InstructionsViewController.m */,
 				635F70921B51685500E6810E /* ViewController.h */,
 				635F70931B51685500E6810E /* ViewController.m */,
 				63BAF63A1B517942002A9DC5 /* ProximityDetector.h */,
@@ -172,6 +177,7 @@
 				635F70911B51685500E6810E /* AppDelegate.m in Sources */,
 				635F708E1B51685500E6810E /* main.m in Sources */,
 				63BAF63D1B518A5C002A9DC5 /* Beeper.m in Sources */,
+				D807D7081B52BFC5001D2BE4 /* InstructionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
