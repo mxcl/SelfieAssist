@@ -97,6 +97,10 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
 @implementation ViewController
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)setupAVCapture
 {
     NSError *error = nil;
