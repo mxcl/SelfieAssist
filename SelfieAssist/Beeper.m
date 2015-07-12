@@ -30,10 +30,10 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
         if (_enabled) {
             CGFloat delta = fabs(_delta);
-            BOOL const ideal = delta < 0.08;
+            BOOL const ideal = delta < 0.04;
             CGFloat duration = ideal
                 ? 0.2
-                : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
+                : 0.35 + log(1 + MIN(delta * 1.0/0.25, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
