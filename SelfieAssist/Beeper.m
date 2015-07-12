@@ -84,8 +84,8 @@
 
             BOOL const ideal = movingAverageDelta < 0.06;
             CGFloat duration = ideal
-                ? 0.08
-                : 0.30 + log(1 + MIN((fabs([movingAverage last:10]) - 0.06) * 1.0/0.2, 1));
+                ? 0.10
+                : 0.26 + log(1 + MIN((fabs([movingAverage last:15]) - 0.06) * 1.0/0.2, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
 
