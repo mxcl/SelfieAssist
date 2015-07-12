@@ -75,7 +75,7 @@
 
             BOOL const ideal = movingAverageDelta < 0.06;
             CGFloat duration = ideal
-                ? 0.13
+                ? 0.15
                 : 0.30 + log(1 + MIN((_delta - 0.06) * 1.0/0.2, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
