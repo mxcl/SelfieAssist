@@ -375,7 +375,8 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         // create a new one if necessary
         if ( !featureLayer ) {
             featureLayer = [CALayer new];
-            [featureLayer setContents:(id)[square CGImage]];
+            featureLayer.borderColor = [UIColor redColor].CGColor;
+            featureLayer.borderWidth = 10;
             [featureLayer setName:@"FaceLayer"];
             [previewLayer addSublayer:featureLayer];
         }
@@ -403,8 +404,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 
         if (!(ff == nil))
         {
-        [proximityDetector pipeFaceFrame:faceRect pictureFrame:self.view.frame];
-           // [self takePhoto];
+            [proximityDetector pipeFaceFrame:faceRect pictureFrame:self.view.frame];
         }
         else
         {
@@ -549,8 +549,27 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     }
 }
 
--(void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
+- (void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
     [self takePictureAndLoadActivityView];
+}
+- (void)proximityDetectorInSweetSpot:(BOOL)inSweetSpot {
+
+    NSArray *sublayers = [NSArray arrayWithArray:[previewLayer sublayers]];
+    NSInteger sublayersCount = [sublayers count], currentSublayer = 0;
+
+    CALayer *featureLayer = nil;
+
+    while ( !featureLayer && (currentSublayer < sublayersCount) ) {
+        CALayer *currentLayer = [sublayers objectAtIndex:currentSublayer++];
+        if ( [[currentLayer name] isEqualToString:@"FaceLayer"] ) {
+            featureLayer = currentLayer;
+            [currentLayer setHidden:NO];
+        }
+    }
+
+    featureLayer.borderColor = inSweetSpot
+        ? [UIColor greenColor].CGColor
+        :[UIColor redColor].CGColor;
 }
 
 -(void)takePictureAndLoadActivityView {
