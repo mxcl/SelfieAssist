@@ -5,13 +5,18 @@
 
 @implementation ProximityDetector {
     CGFloat idealProportion;
-    time_t conditionsMetTimestamp;
     Beeper *beeper;
 }
 
 - (instancetype)initWithIdealProportion:(CGFloat)proportionalFraction {
     idealProportion = proportionalFraction;
     beeper = [Beeper new];
+
+    __weak ProximityDetector *welf = self;
+    beeper.yoDudeItHasBeenASecond = ^{
+        [welf.delegate proximityDetectorIdealConditionsMetForOneSecond:welf];
+    };
+
     return self;
 }
 

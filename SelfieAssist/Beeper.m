@@ -5,6 +5,7 @@
 
 @implementation Beeper {
     NSTimeInterval lastBeepTimestamp;
+    NSTimeInterval idealStartedTimestamp;
     SystemSoundID soundID;
     BOOL started;
 }
@@ -29,11 +30,26 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), q, ^{
         if (_enabled) {
             CGFloat delta = fabs(_delta);
-            CGFloat duration = delta < 0.08
-            ? 0.2
-            : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
+            BOOL const ideal = delta < 0.08;
+            CGFloat duration = ideal
+                ? 0.2
+                : 0.2 + log(1 + MIN(delta * 1.0/0.25, 1));
 
             NSTimeInterval now = [NSDate new].timeIntervalSince1970;
+
+            if (ideal) {
+                if (idealStartedTimestamp == 0) {
+                    idealStartedTimestamp = now;
+                } else if (now > idealStartedTimestamp + 1) {
+                    _yoDudeItHasBeenASecond();
+
+                    // let’s be defensive and cancel ourselves
+                    _enabled = NO;
+                    idealStartedTimestamp = 0;
+                }
+            } else {
+                idealStartedTimestamp = 0;
+            }
 
             if (lastBeepTimestamp + duration <= now) {
                 AudioServicesPlaySystemSound(soundID);
