@@ -541,7 +541,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 }
 
 -(void)proximityDetectorIdealConditionsMetForOneSecond:(id)proximityDetector {
-    NSLog(@"------- TEST");
     [self takePictureAndLoadActivityView];
 }
 
@@ -558,8 +557,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
 
         //Start of activity view
-        NSString *someText = @"Some text";
-        NSArray *objectsToShare = @[someText, jpegData];
+        NSArray *objectsToShare = @[jpegData];
 
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
         [session stopRunning];
