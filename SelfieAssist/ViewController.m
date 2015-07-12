@@ -84,6 +84,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     UIImage *square;
     CIDetector *faceDetector;
     ProximityDetector *proximityDetector;
+    AVCaptureSession *session;
 
     CGFloat beginGestureScale;
     CGFloat effectiveScale;
@@ -99,7 +100,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
 {
     NSError *error = nil;
 
-    AVCaptureSession *session = [AVCaptureSession new];
+    session = [AVCaptureSession new];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         [session setSessionPreset:AVCaptureSessionPreset640x480];
     else
@@ -545,27 +546,6 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
     }
 }
 
--(void)takePhoto
-{
-
-    AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
-    AVCaptureVideoOrientation avcaptureOrientation = [self avOrientationForDeviceOrientation:curDeviceOrientation];
-    [stillImageConnection setVideoOrientation:avcaptureOrientation];
-    [stillImageConnection setVideoScaleAndCropFactor:effectiveScale];
-
-
-        [stillImageOutput setOutputSettings:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCMPixelFormat_32BGRA]
-                                                                        forKey:(id)kCVPixelBufferPixelFormatTypeKey]];
-        [stillImageOutput setOutputSettings:[NSDictionary dictionaryWithObject:AVVideoCodecJPEG
-                                                                        forKey:AVVideoCodecKey]];
-    [stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
-                                                  completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-
-
-                                                  }];
-}
-
 -(void)takePictureAndLoadActivityView {
     // Find out the current orientation and tell the still image output.
     AVCaptureConnection *stillImageConnection = [stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -583,6 +563,9 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
         NSArray *objectsToShare = @[someText, jpegData];
 
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+        [session stopRunning];
+
+        proximityDetector.enabled = NO;
 
         NSArray *excludeActivities = @[UIActivityTypeAirDrop,
                                      UIActivityTypePrint,
@@ -593,8 +576,14 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
                                      UIActivityTypePostToVimeo];
         activityVC.excludedActivityTypes = excludeActivities;
 
-        [self presentViewController:activityVC animated:YES completion:nil];
-        //End of activity view
+        [self presentViewController:activityVC animated:YES completion:^{
+
+        }];
+
+        [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+            [session startRunning];
+            proximityDetector.enabled = YES;
+        }];
 
         CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault,
                                                                   imageDataSampleBuffer,
@@ -604,6 +593,7 @@ static CGContextRef CreateCGBitmapContextForSize(CGSize size)
           if (error) {
               [self displayErrorOnMainQueue:error withMessage:@"Save to camera roll failed"];
           }
+
         }];
     }];
 }
