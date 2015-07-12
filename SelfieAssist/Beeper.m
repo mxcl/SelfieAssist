@@ -20,6 +20,7 @@
 - (void)setDelta:(CGFloat)delta {
     _delta = delta;
     if (!started) {
+        started = true;
         [self loop];
     }
 }
